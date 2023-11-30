@@ -17,6 +17,7 @@ const Home = () => {
     message: "",
     document: "",
   });
+  console.log(import.meta.env.VITE_BACKEND_URL);
 
   const handleNameChange = (e) => setName(e.target.value);
   const handleMessageChange = (e) => setMessage(e.target.value);
@@ -37,7 +38,7 @@ const Home = () => {
     formData.append("document", file);
     formData.append("message", message);
     const res = await axios.post(
-      "http://localhost:3000/write/handleDataWrite",
+      `${import.meta.env.VITE_BACKEND_URL}/write/handleDataWrite`,
       formData
     );
     setMyLoader(false);
@@ -50,7 +51,7 @@ const Home = () => {
       setFetchLoader(true);
       const queryParams = { name: queryNameMumbai };
       const response = await axios.get(
-        "http://localhost:3000/read/readDataMumbai",
+        `${import.meta.env.VITE_BACKEND_URL}/read/readDataMumbai`,
         {
           params: queryParams,
         }
@@ -72,7 +73,7 @@ const Home = () => {
       setFetchLoader(true);
       const queryParams = { name: queryNameBSC };
       const response = await axios.get(
-        "http://localhost:3000/read/readDataBsc",
+        `${import.meta.env.VITE_BACKEND_URL}/read/readDataBsc`,
         {
           params: queryParams,
         }
