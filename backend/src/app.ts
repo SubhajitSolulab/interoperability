@@ -11,12 +11,12 @@ app.use(express.json());
 //for handling files in req.files
 app.use(fileUpload());
 // // Handling GET / Request
-// app.get("/", (req, res) => {
-//   res.send("Welcome to typescript backend!");
-// });
 
 app.use("/write", writeRouter);
 app.use("/read", readRouter);
+app.get("/test", (req, res) => {
+  res.send("Welcome to typescript backend!");
+});
 
 //if no route hit till this point
 //then user has hit a wrong end point
