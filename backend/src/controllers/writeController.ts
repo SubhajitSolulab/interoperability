@@ -18,7 +18,9 @@ export const handleDataWrite = async (req: Request, res: Response) => {
       message: "Cannot proceed without name",
     });
   }
-  await writeMessageMumbaiBsc(name, req.body.message);
+
+  const txMessage = await writeMessageMumbaiBsc(name, req.body.message);
+  let txDocument;
 
   // const s = req.files;
   if (req.files) {
@@ -37,12 +39,16 @@ export const handleDataWrite = async (req: Request, res: Response) => {
           "Invalid file type. Only .txt, .csv, .jpg, .jpeg files are allowed",
       });
     }
-    await writeDocumentMumbaiBsc(name, req.files);
+    txDocument = await writeDocumentMumbaiBsc(name, req.files);
   }
+  // console.log(txMessage);
 
   res.status(201).json({
     status: "success",
-    data: "ok",
+    data: {
+      txMessage,
+      txDocument,
+    },
   });
 };
 
@@ -77,10 +83,15 @@ export const writeMessageMumbaiBsc = async (name: string, message: string) => {
     const txMumbai = await messageMumbai_rw.setMessage(name, message);
     await txMumbai.wait();
 
-    console.log("done from mumbai");
+    console.log("done from mumbai", txMumbai.hash);
     const txBsc = await messageBsc_rw.setMessage(name, message);
     await txBsc.wait();
-    console.log("done from bsc");
+    console.log("done from bsc", txBsc.hash);
+
+    return {
+      txMessageMumbaiHash: txMumbai.hash,
+      txMessageBscHash: txBsc.hash,
+    };
   }
 };
 
@@ -156,6 +167,10 @@ export const writeDocumentMumbaiBsc = async (
     );
     await txBsc.wait();
     console.log("done from bsc");
+    return {
+      txDocumentMumbaiHash: txMumbai.hash,
+      txDocumentBscHash: txBsc.hash,
+    };
   }
 
   // res.status(201).json({
