@@ -241,7 +241,7 @@ const Modal = ({ isOpen, onClose, data }) => {
 
         {data?.txMessageBscHash && (
           <p className="text-white text-lg mb-4">
-            polygonMumbaiMessage:{" "}
+            polygonBscMessage:{" "}
             <a
               href={"https://testnet.bscscan.com/tx/" + data?.txMessageBscHash}
               rel="noreferrer"
@@ -256,7 +256,7 @@ const Modal = ({ isOpen, onClose, data }) => {
 
         {data?.txDocumentMumbaiHash && (
           <p className="text-white text-lg mb-4">
-            polygonMumbaiMessage:{" "}
+            polygonMumbaiDocument:{" "}
             <a
               href={
                 "https://mumbai.polygonscan.com/tx/" +
@@ -274,7 +274,7 @@ const Modal = ({ isOpen, onClose, data }) => {
 
         {data?.txDocumentBscHash && (
           <p className="text-white text-lg mb-4">
-            polygonMumbaiMessage:{" "}
+            polygonBscDocument:{" "}
             <a
               href={"https://testnet.bscscan.com/tx/" + data?.txDocumentBscHash}
               rel="noreferrer"
