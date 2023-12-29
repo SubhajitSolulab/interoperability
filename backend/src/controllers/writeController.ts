@@ -84,7 +84,12 @@ export const writeMessageMumbaiBsc = async (name: string, message: string) => {
     await txMumbai.wait();
 
     console.log("done from mumbai", txMumbai.hash);
-    const txBsc = await messageBsc_rw.setMessage(name, message);
+    const gasPrice = walletBsc.getGasPrice();
+    const gasLimit = messageBsc_rw.estimateGas.setMessage(name, message);
+    const txBsc = await messageBsc_rw.setMessage(name, message, {
+      gasLimit,
+      gasPrice,
+    });
     await txBsc.wait();
     console.log("done from bsc", txBsc.hash);
 
@@ -161,9 +166,18 @@ export const writeDocumentMumbaiBsc = async (
     );
     await txMumbai.wait();
     console.log("done from mumbai");
-    const txBsc = await messageBsc_rw.setDocument(
+    const gasPrice = walletBsc.getGasPrice();
+    const gasLimit = messageBsc_rw.estimateGas.setDocument(
       name,
       "https://ipfs.io/ipfs/" + result.IpfsHash
+    );
+    const txBsc = await messageBsc_rw.setDocument(
+      name,
+      "https://ipfs.io/ipfs/" + result.IpfsHash,
+      {
+        gasLimit,
+        gasPrice,
+      }
     );
     await txBsc.wait();
     console.log("done from bsc");
